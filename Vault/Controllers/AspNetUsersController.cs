@@ -25,15 +25,16 @@ namespace Vault.Controllers
         }
 
         // GET: api/AspNetUsers/5Z
-        public User GetAspNetUser(string id)
+        [ResponseType(typeof(User))]
+        public IHttpActionResult GetAspNetUser(string id)
         {
             AspNetUser aspNetUser = db.AspNetUsers.Find(id);
             if (aspNetUser == null)
             {
-                throw new HttpException(HttpStatusCode.NotFound.ToString());
+                return NotFound();
             }
 
-            return new User
+            return Ok(new User
             {
                 Email = aspNetUser.Email,
                 FirstName = aspNetUser.FirstName,
@@ -52,8 +53,8 @@ namespace Vault.Controllers
                         }).ToList()
                     }).ToList()
                 }).ToList()
-                
-            };
+
+            });
         }
 
         // PUT: api/AspNetUsers/5
