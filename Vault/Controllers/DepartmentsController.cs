@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Vault;
 
 namespace Vault.Controllers
 {
-    [Authorize]
-    public class DepartmentsController : ApiController
+    public class DepartmentsController : BaseController
     {
         private qahmed1Entities db = new qahmed1Entities();
 

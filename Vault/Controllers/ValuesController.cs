@@ -7,8 +7,7 @@ using System.Web.Http;
 
 namespace Vault.Controllers
 {
-    [Authorize]
-    public class ValuesController : ApiController
+    public class ValuesController : BaseController
     {
         // GET api/values
         public IEnumerable<string> Get()

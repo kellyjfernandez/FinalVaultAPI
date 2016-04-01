@@ -12,8 +12,7 @@ using Vault;
 
 namespace Vault.Controllers
 {
-    [Authorize]
-    public class ComputersController : ApiController
+    public class ComputersController : BaseController
     {
         private qahmed1Entities db = new qahmed1Entities();
 
