@@ -13,6 +13,7 @@ namespace Vault.Models
         {
             ComputerName = aspNetComputer.ComputerName;
             DepartmentName = aspNetComputer.DepartmentName;
+            ComputerId = aspNetComputer.ComputerId;
             Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Credencial(aspNetCredential)).ToList();
         }
 
@@ -20,6 +21,7 @@ namespace Vault.Models
 
         public string ComputerName { get; set; }
         public string DepartmentName { get; set; }
+        public int ComputerId { get; set; }
         public List<Credencial> Credentials { set; get; }
     }
 }

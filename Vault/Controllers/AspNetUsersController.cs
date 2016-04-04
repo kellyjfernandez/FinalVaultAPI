@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
@@ -40,8 +41,43 @@ namespace Vault.Controllers
 
         // PUT: api/AspNetUsers/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutAspNetUser(string id, AspNetUser aspNetUser)
+        public IHttpActionResult PutAspNetUser(string id, User user)
         {
+            AspNetUser aspNetUser = new AspNetUser
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PasswordHash = user.Password,
+                UserName = user.Email,
+                isAdmin = user.IsAdmin,
+                Departments = new Collection<Department>(user.Permissions.Select(departmento => new Department
+                {
+                    DepartmentName = departmento.DepartmentName,
+                    Computers = new Collection<Computer>(departmento.Computers.Select(computadora => new Computer
+                    {
+                        ComputerName = computadora.ComputerName,
+                        DepartmentName = computadora.DepartmentName,
+                        ComputerId = computadora.ComputerId,
+                        Credentials = new Collection<Credential>(computadora.Credentials.Select(credencial => new Credential
+                        {
+                            UserName = credencial.UserName,
+                            Password = credencial.Password,
+                            Type = credencial.Type
+                        }).ToList())
+     
+                    }).ToList())
+                }).ToList()),
+                EmailConfirmed = false,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                PhoneNumber = null,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEndDateUtc = null,
+                LockoutEnabled = false,
+                AccessFailedCount = 0
+            };
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -74,9 +110,44 @@ namespace Vault.Controllers
         }
 
         // POST: api/AspNetUsers
-        [ResponseType(typeof(AspNetUser))]
-        public IHttpActionResult PostAspNetUser(AspNetUser aspNetUser)
+        [ResponseType(typeof(User))]
+        public IHttpActionResult PostAspNetUser(User user)
         {
+            AspNetUser aspNetUser = new AspNetUser
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PasswordHash = user.Password,
+                UserName = user.Email,
+                isAdmin = user.IsAdmin,
+                Departments = new Collection<Department>(user.Permissions.Select(departmento => new Department
+                {
+                    DepartmentName = departmento.DepartmentName,
+                    Computers = new Collection<Computer>(departmento.Computers.Select(computadora => new Computer
+                    {
+                        ComputerName = computadora.ComputerName,
+                        DepartmentName = computadora.DepartmentName,
+                        ComputerId = computadora.ComputerId,
+                        Credentials = new Collection<Credential>(computadora.Credentials.Select(credencial => new Credential
+                        {
+                            UserName = credencial.UserName,
+                            Password = credencial.Password,
+                            Type = credencial.Type
+                        }).ToList())
+
+                    }).ToList())
+                }).ToList()),
+                EmailConfirmed = false,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                PhoneNumber = null,
+                PhoneNumberConfirmed = false,
+                TwoFactorEnabled = false,
+                LockoutEndDateUtc = null,
+                LockoutEnabled = false,
+                AccessFailedCount = 0
+            };
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -104,7 +175,7 @@ namespace Vault.Controllers
         }
 
         // DELETE: api/AspNetUsers/5
-        [ResponseType(typeof(AspNetUser))]
+        [ResponseType(typeof(User))]
         public IHttpActionResult DeleteAspNetUser(string id)
         {
             AspNetUser aspNetUser = db.AspNetUsers.Find(id);
@@ -116,7 +187,7 @@ namespace Vault.Controllers
             db.AspNetUsers.Remove(aspNetUser);
             db.SaveChanges();
 
-            return Ok(aspNetUser);
+            return Ok(new User(aspNetUser));
         }
 
         protected override void Dispose(bool disposing)
