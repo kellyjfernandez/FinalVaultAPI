@@ -16,11 +16,7 @@ namespace Vault.Controllers
         public IQueryable<Credencial> GetCredentials()
         {
             IQueryable<Credential> aspNetCredentials = db.Credentials;
-            List<Credencial> credencials = new List<Credencial>();
-            foreach (Credential aspNetCredential in aspNetCredentials.ToList())
-            {
-                credencials.Add(new Credencial(aspNetCredential));
-            }
+            List<Credencial> credencials = aspNetCredentials.ToList().Select(aspNetCredential => new Credencial(aspNetCredential)).ToList();
             return credencials.AsQueryable();
         }
 

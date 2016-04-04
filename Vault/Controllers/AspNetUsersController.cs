@@ -21,11 +21,7 @@ namespace Vault.Controllers
         public IQueryable<User> GetAspNetUsers()
         {
             IQueryable<AspNetUser> aspNetUsers = db.AspNetUsers;
-            List<User> users = new List<User>();
-            foreach (AspNetUser aspNetUser in aspNetUsers.ToList())
-            {
-                users.Add(new User(aspNetUser));
-            }
+            List<User> users = aspNetUsers.ToList().Select(aspNetUser => new User(aspNetUser)).ToList();
             return users.AsQueryable();
         }
 

@@ -16,11 +16,7 @@ namespace Vault.Controllers
         public IQueryable<Departmento> GetDepartments()
         {
             IQueryable<Department> aspNetDepartments = db.Departments;
-            List<Departmento> departments = new List<Departmento>();
-            foreach (Department aspNetDepartment in aspNetDepartments.ToList())
-            {
-                departments.Add(new Departmento(aspNetDepartment));
-            }
+            List<Departmento> departments = aspNetDepartments.ToList().Select(aspNetDepartment => new Departmento(aspNetDepartment)).ToList();
             return departments.AsQueryable();
         }
 

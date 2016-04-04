@@ -16,11 +16,7 @@ namespace Vault.Controllers
         public IQueryable<Comptadora> GetComputers()
         {
             IQueryable<Computer> aspNetComputers = db.Computers;
-            List<Comptadora> computers = new List<Comptadora>();
-            foreach (Computer aspNetComputer in aspNetComputers.ToList())
-            {
-                computers.Add(new Comptadora(aspNetComputer));
-            }
+            List<Comptadora> computers = aspNetComputers.ToList().Select(aspNetComputer => new Comptadora(aspNetComputer)).ToList();
             return computers.AsQueryable();
         }
 
