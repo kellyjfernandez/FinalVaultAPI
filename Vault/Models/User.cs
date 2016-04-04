@@ -18,18 +18,7 @@ namespace Vault.Models
             LastName = aspNetUser.LastName;
             IsAdmin = aspNetUser.isAdmin;
             Permissions = aspNetUser.Departments.Select(aspNetDepartment => new Models.Departmento
-            {
-                DepartmentName = aspNetDepartment.DepartmentName,
-                Computers = aspNetDepartment.Computers.Select(aspNetComputer => new Models.Comptadora
-                {
-                    ComputerName = aspNetComputer.ComputerName,
-                    Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Models.Credencial
-                    {
-                        UserName = aspNetCredential.UserName,
-                        Password = aspNetCredential.Password
-                    }).ToList()
-                }).ToList()
-            }).ToList();
+            (aspNetDepartment)).ToList();
         }
     
         public string FirstName { get; set; }

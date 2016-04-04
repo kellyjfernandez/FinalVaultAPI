@@ -27,7 +27,7 @@ namespace Vault.Controllers
                 return NotFound();
             }
 
-            return Ok(department);
+            return Ok(new Departmento(department));
         }
 
         // PUT: api/Departments/5

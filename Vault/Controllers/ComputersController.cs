@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
-using Vault;
+using Vault.Models;
 
 namespace Vault.Controllers
 {
@@ -22,7 +18,7 @@ namespace Vault.Controllers
         }
 
         // GET: api/Computers/5
-        [ResponseType(typeof(Computer))]
+        [ResponseType(typeof(Comptadora))]
         public IHttpActionResult GetComputer(int id)
         {
             Computer computer = db.Computers.Find(id);
@@ -31,7 +27,7 @@ namespace Vault.Controllers
                 return NotFound();
             }
 
-            return Ok(computer);
+            return Ok(new Comptadora(computer));
         }
 
         // PUT: api/Computers/5

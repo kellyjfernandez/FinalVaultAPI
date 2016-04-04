@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Vault.Models;
 
 namespace Vault.Controllers
 {
@@ -17,7 +18,7 @@ namespace Vault.Controllers
         }
 
         // GET: api/Credentials/5
-        [ResponseType(typeof(Credential))]
+        [ResponseType(typeof(Credencial))]
         public IHttpActionResult GetCredential(string id)
         {
             Credential credential = db.Credentials.Find(id);
@@ -26,7 +27,7 @@ namespace Vault.Controllers
                 return NotFound();
             }
 
-            return Ok(credential);
+            return Ok(new Credencial(credential));
         }
 
         // PUT: api/Credentials/5

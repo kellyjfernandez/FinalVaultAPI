@@ -33,27 +33,7 @@ namespace Vault.Controllers
                 return NotFound();
             }
 
-            return Ok(new User
-            {
-                Email = aspNetUser.Email,
-                FirstName = aspNetUser.FirstName,
-                LastName = aspNetUser.LastName,
-                IsAdmin = aspNetUser.isAdmin,
-                Permissions = aspNetUser.Departments.Select(aspNetDepartment => new Models.Departmento
-                {
-                    DepartmentName = aspNetDepartment.DepartmentName,
-                    Computers = aspNetDepartment.Computers.Select(aspNetComputer => new Models.Comptadora
-                    {
-                        ComputerName = aspNetComputer.ComputerName,
-                        Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Models.Credencial
-                        {
-                            UserName = aspNetCredential.UserName,
-                            Password = aspNetCredential.Password
-                        }).ToList()
-                    }).ToList()
-                }).ToList()
-
-            });
+            return Ok(new User(aspNetUser));
         }
 
         // PUT: api/AspNetUsers/5
