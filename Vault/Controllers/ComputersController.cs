@@ -14,7 +14,6 @@ namespace Vault.Controllers
 {
     public class ComputersController : BaseController
     {
-        private qahmed1Entities db = new qahmed1Entities();
 
         // GET: api/Computers
         public IQueryable<Computer> GetComputers()

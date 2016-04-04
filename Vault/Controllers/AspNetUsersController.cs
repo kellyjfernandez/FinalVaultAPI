@@ -16,7 +16,6 @@ namespace Vault.Controllers
 {
     public class AspNetUsersController : BaseController
     {
-        private qahmed1Entities db = new qahmed1Entities();
 
         // GET: api/AspNetUsers
         public IQueryable<AspNetUser> GetAspNetUsers()
@@ -25,35 +24,36 @@ namespace Vault.Controllers
         }
 
         // GET: api/AspNetUsers/5Z
-        public User GetAspNetUser(string id)
+        [ResponseType(typeof(User))]
+        public IHttpActionResult GetAspNetUser(string id)
         {
             AspNetUser aspNetUser = db.AspNetUsers.Find(id);
             if (aspNetUser == null)
             {
-                throw new HttpException(HttpStatusCode.NotFound.ToString());
+                return NotFound();
             }
 
-            return new User
+            return Ok(new User
             {
                 Email = aspNetUser.Email,
                 FirstName = aspNetUser.FirstName,
                 LastName = aspNetUser.LastName,
                 IsAdmin = aspNetUser.isAdmin,
-                Permissions = aspNetUser.Departments.Select(aspNetDepartment => new Models.Department
+                Permissions = aspNetUser.Departments.Select(aspNetDepartment => new Models.Departmento
                 {
                     DepartmentName = aspNetDepartment.DepartmentName,
-                    Computers = aspNetDepartment.Computers.Select(aspNetComputer => new Models.Computer
+                    Computers = aspNetDepartment.Computers.Select(aspNetComputer => new Models.Comptadora
                     {
                         ComputerName = aspNetComputer.ComputerName,
-                        Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Models.Credential
+                        Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Models.Credencial
                         {
                             UserName = aspNetCredential.UserName,
                             Password = aspNetCredential.Password
                         }).ToList()
                     }).ToList()
                 }).ToList()
-                
-            };
+
+            });
         }
 
         // PUT: api/AspNetUsers/5

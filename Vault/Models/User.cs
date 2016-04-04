@@ -17,13 +17,13 @@ namespace Vault.Models
             FirstName = aspNetUser.FirstName;
             LastName = aspNetUser.LastName;
             IsAdmin = aspNetUser.isAdmin;
-            Permissions = aspNetUser.Departments.Select(aspNetDepartment => new Models.Department
+            Permissions = aspNetUser.Departments.Select(aspNetDepartment => new Models.Departmento
             {
                 DepartmentName = aspNetDepartment.DepartmentName,
-                Computers = aspNetDepartment.Computers.Select(aspNetComputer => new Models.Computer
+                Computers = aspNetDepartment.Computers.Select(aspNetComputer => new Models.Comptadora
                 {
                     ComputerName = aspNetComputer.ComputerName,
-                    Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Models.Credential
+                    Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Models.Credencial
                     {
                         UserName = aspNetCredential.UserName,
                         Password = aspNetCredential.Password
@@ -37,6 +37,6 @@ namespace Vault.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public bool IsAdmin { get; set; }
-        public List<Department> Permissions { get; set; }
+        public List<Departmento> Permissions { get; set; }
     }
 }
