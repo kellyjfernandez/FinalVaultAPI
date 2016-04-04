@@ -9,7 +9,6 @@ namespace Vault.Controllers
 {
     public class CredentialsController : BaseController
     {
-        private qahmed1Entities db = new qahmed1Entities();
 
         // GET: api/Credentials
         public IQueryable<Credential> GetCredentials()

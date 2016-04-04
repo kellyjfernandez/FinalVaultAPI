@@ -2,9 +2,9 @@
 
 namespace Vault.Models
 {
-    public class Computer
+    public class Comptadora
     {
         public string ComputerName { get; set; }
-        public List<Credential> Credentials { set; get; }
+        public List<Credencial> Credentials { set; get; }
     }
 }

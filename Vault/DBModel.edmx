@@ -116,7 +116,7 @@
         </Association>
         <Association Name="FK__Credentia__Compu__19DFD96B">
           <End Role="Computer" Type="Self.Computer" Multiplicity="1" />
-          <End Role="Credential" Type="Self.Credential" Multiplicity="*" />
+          <End Role="Credential" Type="Self.Credencial" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Computer">
               <PropertyRef Name="ComputerId" />
@@ -214,7 +214,7 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Computer" EntityType="Self.Computer" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Credential" EntityType="Self.Credential" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Credential" EntityType="Self.Credencial" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Permission" EntityType="Self.Permission" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__Computer__Depart__17036CC0" Association="Self.FK__Computer__Depart__17036CC0">
@@ -223,7 +223,7 @@
           </AssociationSet>
           <AssociationSet Name="FK__Credentia__Compu__19DFD96B" Association="Self.FK__Credentia__Compu__19DFD96B">
             <End Role="Computer" EntitySet="Computer" />
-            <End Role="Credential" EntitySet="Credential" />
+            <End Role="Credential" EntitySet="Credencial" />
           </AssociationSet>
           <AssociationSet Name="FK__Permissio__Depar__123EB7A3" Association="Self.FK__Permissio__Depar__123EB7A3">
             <End Role="Department" EntitySet="Department" />
@@ -326,7 +326,7 @@
           <Property Name="ComputerId" Type="Int32" Nullable="false" />
           <Property Name="ComputerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Computer__Depart__17036CC0" FromRole="Computer" ToRole="Department" />
-          <NavigationProperty Name="Credentials" Relationship="Self.FK__Credentia__Compu__19DFD96B" FromRole="Computer" ToRole="Credential" />
+          <NavigationProperty Name="Credentials" Relationship="Self.FK__Credentia__Compu__19DFD96B" FromRole="Computer" ToRole="Credencial" />
         </EntityType>
         <EntityType Name="Credential">
           <Key>
@@ -390,7 +390,7 @@
         </Association>
         <Association Name="FK__Credentia__Compu__19DFD96B">
           <End Role="Computer" Type="Self.Computer" Multiplicity="1" />
-          <End Role="Credential" Type="Self.Credential" Multiplicity="*" />
+          <End Role="Credential" Type="Self.Credencial" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Computer">
               <PropertyRef Name="ComputerId" />
@@ -415,7 +415,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="Computers" EntityType="Self.Computer" />
-          <EntitySet Name="Credentials" EntityType="Self.Credential" />
+          <EntitySet Name="Credentials" EntityType="Self.Credencial" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -431,7 +431,7 @@
           </AssociationSet>
           <AssociationSet Name="FK__Credentia__Compu__19DFD96B" Association="Self.FK__Credentia__Compu__19DFD96B">
             <End Role="Computer" EntitySet="Computers" />
-            <End Role="Credential" EntitySet="Credentials" />
+            <End Role="Credential" EntitySet="Credencials" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />

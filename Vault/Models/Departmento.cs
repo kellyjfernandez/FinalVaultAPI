@@ -2,9 +2,9 @@
 
 namespace Vault.Models
 {
-    public class Department
+    public class Departmento
     {
         public string DepartmentName { get; set; }
-        public List<Computer> Computers { get; set; }
+        public List<Comptadora> Computers { get; set; }
     }
 }

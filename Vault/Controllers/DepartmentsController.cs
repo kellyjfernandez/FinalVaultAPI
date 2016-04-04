@@ -4,12 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Web.Http;
 using System.Web.Http.Description;
+using Vault.Models;
 
 namespace Vault.Controllers
 {
     public class DepartmentsController : BaseController
     {
-        private qahmed1Entities db = new qahmed1Entities();
 
         // GET: api/Departments
         public IQueryable<Department> GetDepartments()
@@ -18,7 +18,7 @@ namespace Vault.Controllers
         }
 
         // GET: api/Departments/5
-        [ResponseType(typeof(Department))]
+        [ResponseType(typeof(Departmento))]
         public IHttpActionResult GetDepartment(string id)
         {
             Department department = db.Departments.Find(id);

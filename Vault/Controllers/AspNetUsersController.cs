@@ -16,7 +16,6 @@ namespace Vault.Controllers
 {
     public class AspNetUsersController : BaseController
     {
-        private qahmed1Entities db = new qahmed1Entities();
 
         // GET: api/AspNetUsers
         public IQueryable<AspNetUser> GetAspNetUsers()
@@ -40,13 +39,13 @@ namespace Vault.Controllers
                 FirstName = aspNetUser.FirstName,
                 LastName = aspNetUser.LastName,
                 IsAdmin = aspNetUser.isAdmin,
-                Permissions = aspNetUser.Departments.Select(aspNetDepartment => new Models.Department
+                Permissions = aspNetUser.Departments.Select(aspNetDepartment => new Models.Departmento
                 {
                     DepartmentName = aspNetDepartment.DepartmentName,
-                    Computers = aspNetDepartment.Computers.Select(aspNetComputer => new Models.Computer
+                    Computers = aspNetDepartment.Computers.Select(aspNetComputer => new Models.Comptadora
                     {
                         ComputerName = aspNetComputer.ComputerName,
-                        Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Models.Credential
+                        Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Models.Credencial
                         {
                             UserName = aspNetCredential.UserName,
                             Password = aspNetCredential.Password

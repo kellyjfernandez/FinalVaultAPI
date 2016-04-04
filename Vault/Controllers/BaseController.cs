@@ -9,5 +9,7 @@ namespace Vault.Controllers
     [Authorize]
     public class BaseController : ApiController
     {
+    
+        protected qahmed1Entities db = new qahmed1Entities();
     }
 }
