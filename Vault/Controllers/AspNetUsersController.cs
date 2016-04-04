@@ -18,9 +18,15 @@ namespace Vault.Controllers
     {
 
         // GET: api/AspNetUsers
-        public IQueryable<AspNetUser> GetAspNetUsers()
+        public IQueryable<User> GetAspNetUsers()
         {
-            return db.AspNetUsers;
+            IQueryable<AspNetUser> aspNetUsers = db.AspNetUsers;
+            List<User> users = new List<User>();
+            foreach (AspNetUser aspNetUser in aspNetUsers.ToList())
+            {
+                users.Add(new User(aspNetUser));
+            }
+            return users.AsQueryable();
         }
 
         // GET: api/AspNetUsers/5Z

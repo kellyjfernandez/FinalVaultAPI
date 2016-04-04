@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -12,9 +13,15 @@ namespace Vault.Controllers
     {
 
         // GET: api/Credentials
-        public IQueryable<Credential> GetCredentials()
+        public IQueryable<Credencial> GetCredentials()
         {
-            return db.Credentials;
+            IQueryable<Credential> aspNetCredentials = db.Credentials;
+            List<Credencial> credencials = new List<Credencial>();
+            foreach (Credential aspNetCredential in aspNetCredentials.ToList())
+            {
+                credencials.Add(new Credencial(aspNetCredential));
+            }
+            return credencials.AsQueryable();
         }
 
         // GET: api/Credentials/5

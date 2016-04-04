@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
@@ -12,9 +13,15 @@ namespace Vault.Controllers
     {
 
         // GET: api/Departments
-        public IQueryable<Department> GetDepartments()
+        public IQueryable<Departmento> GetDepartments()
         {
-            return db.Departments;
+            IQueryable<Department> aspNetDepartments = db.Departments;
+            List<Departmento> departments = new List<Departmento>();
+            foreach (Department aspNetDepartment in aspNetDepartments.ToList())
+            {
+                departments.Add(new Departmento(aspNetDepartment));
+            }
+            return departments.AsQueryable();
         }
 
         // GET: api/Departments/5
