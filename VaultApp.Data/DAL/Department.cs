@@ -22,6 +22,7 @@ namespace VaultApp.Data.DAL
         }
     
         public string DepartmentName { get; set; }
+        public int Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Computer> Computers { get; set; }

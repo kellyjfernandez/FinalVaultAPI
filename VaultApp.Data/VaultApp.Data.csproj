@@ -99,6 +99,7 @@
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="DAL\VaultDataModel.edmx.diagram">
       <DependentUpon>VaultDataModel.edmx</DependentUpon>
     </None>

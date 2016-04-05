@@ -35,14 +35,14 @@ namespace Vault.Controllers
 
         // PUT: api/Departments/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutDepartment(string id, Department department)
+        public IHttpActionResult PutDepartment(string departmentName, Department department)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != department.DepartmentName)
+            if (departmentName != department.DepartmentName)
             {
                 return BadRequest();
             }
@@ -55,7 +55,7 @@ namespace Vault.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DepartmentExists(id))
+                if (!DepartmentExists(departmentName))
                 {
                     return NotFound();
                 }

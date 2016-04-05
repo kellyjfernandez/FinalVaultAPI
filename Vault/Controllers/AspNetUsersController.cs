@@ -51,45 +51,17 @@ namespace Vault.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutAspNetUser(string id, User user)
         {
-            /*AspNetUser aspNetUser = new AspNetUser
-            {
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                PasswordHash = user.Password,
-                UserName = user.Email,
-                isAdmin = user.IsAdmin,
-                Departments = new Collection<Department>(user.Permissions.Select(departmento => new Department
-                {
-                    DepartmentName = departmento.DepartmentName,
-                    Computers = new Collection<Computer>(departmento.Computers.Select(computadora => new Computer
-                    {
-                        ComputerName = computadora.ComputerName,
-                        DepartmentName = computadora.DepartmentName,
-                        ComputerId = computadora.ComputerId,
-                        Credentials = new Collection<Credential>(computadora.Credentials.Select(credencial => new Credential
-                        {
-                            UserName = credencial.UserName,
-                            Password = credencial.Password,
-                            Type = credencial.Type
-                        }).ToList())
-
-                    }).ToList())
-                }).ToList()),
-                EmailConfirmed = false,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                PhoneNumber = null,
-                PhoneNumberConfirmed = false,
-                TwoFactorEnabled = false,
-                LockoutEndDateUtc = null,
-                LockoutEnabled = false,
-                AccessFailedCount = 0
-            };
-            */
+            var userToUpdate = db.AspNetUsers.FirstOrDefault(x => x.Id == id);
 
             //These lines are what makes the write to the permission table
 
-            var userToUpdate = db.AspNetUsers.FirstOrDefault(x => x.Id == id);
+            db.AspNetUsers.Attach(userToUpdate);
+            userToUpdate.FirstName = user.FirstName;
+            userToUpdate.LastName = user.LastName;
+            userToUpdate.Email = user.Email;
+            userToUpdate.isAdmin = user.IsAdmin;
+            userToUpdate.UserName = user.Email;
+
                 List<Departmento> dpt = user.Permissions.ToList();
                 List<String> deptName = new List<string>();
                 foreach (Departmento item in dpt) 
@@ -110,30 +82,30 @@ namespace Vault.Controllers
                     return BadRequest(ModelState);
                 }
 
-            if (id != userToUpdate.Id)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(userToUpdate).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!AspNetUserExists(id))
+                if (id != userToUpdate.Id)
                 {
-                    return NotFound();
+                    return BadRequest();
                 }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return StatusCode(HttpStatusCode.NoContent);
+                db.Entry(userToUpdate).State = EntityState.Modified;
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!AspNetUserExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/AspNetUsers
