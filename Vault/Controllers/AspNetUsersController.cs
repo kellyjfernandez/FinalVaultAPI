@@ -43,7 +43,7 @@ namespace Vault.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutAspNetUser(string id, User user)
         {
-            AspNetUser aspNetUser = new AspNetUser
+            /*VaultApp.Data.DAL.AspNetUser aspNetUser = new VaultApp.Data.DAL.AspNetUser
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -69,7 +69,8 @@ namespace Vault.Controllers
      
                     }).ToList())
                 }).ToList()),
-                EmailConfirmed = false,
+                
+            EmailConfirmed = false,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 PhoneNumber = null,
                 PhoneNumberConfirmed = false,
@@ -78,17 +79,37 @@ namespace Vault.Controllers
                 LockoutEnabled = false,
                 AccessFailedCount = 0
             };
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+            */
 
-            if (id != aspNetUser.Id)
+                //These lines are what makes the write to the permission table
+     
+                var userToUpdate = db.AspNetUsers.FirstOrDefault(x => x.Id == id);
+                List<Departmento> dpt = user.Permissions.ToList();
+                List<String> deptName = new List<string>();
+                foreach (Departmento item in dpt) 
+                {
+                deptName.Add(item.DepartmentName);
+                }
+
+                foreach(String name in deptName)
+                {
+                var departmentToAdd = db.Departments.FirstOrDefault(x => x.DepartmentName == name);
+                userToUpdate.Departments.Add(departmentToAdd);
+                }
+
+                //end of added code
+            
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+            if (id != userToUpdate.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(aspNetUser).State = EntityState.Modified;
+            db.Entry(userToUpdate).State = EntityState.Modified;
 
             try
             {
