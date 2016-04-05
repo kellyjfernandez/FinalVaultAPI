@@ -43,9 +43,8 @@ namespace Vault.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult PutAspNetUser(string id, User user)
         {
-            /*VaultApp.Data.DAL.AspNetUser aspNetUser = new VaultApp.Data.DAL.AspNetUser
+            /*AspNetUser aspNetUser = new AspNetUser
             {
-                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
@@ -66,11 +65,10 @@ namespace Vault.Controllers
                             Password = credencial.Password,
                             Type = credencial.Type
                         }).ToList())
-     
+
                     }).ToList())
                 }).ToList()),
-                
-            EmailConfirmed = false,
+                EmailConfirmed = false,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 PhoneNumber = null,
                 PhoneNumberConfirmed = false,
@@ -81,9 +79,9 @@ namespace Vault.Controllers
             };
             */
 
-                //These lines are what makes the write to the permission table
-     
-                var userToUpdate = db.AspNetUsers.FirstOrDefault(x => x.Id == id);
+            //These lines are what makes the write to the permission table
+
+            var userToUpdate = db.AspNetUsers.FirstOrDefault(x => x.Id == id);
                 List<Departmento> dpt = user.Permissions.ToList();
                 List<String> deptName = new List<string>();
                 foreach (Departmento item in dpt) 
