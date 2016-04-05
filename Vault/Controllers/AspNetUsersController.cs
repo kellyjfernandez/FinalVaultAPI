@@ -26,17 +26,25 @@ namespace Vault.Controllers
             return users.AsQueryable();
         }
 
-        // GET: api/AspNetUsers/5Z
+        // GET: api/AspNetUsers/user@example.com
         [ResponseType(typeof(User))]
-        public IHttpActionResult GetAspNetUser(string id)
+        public IHttpActionResult GetAspNetUser(string email)
         {
-            AspNetUser aspNetUser = db.AspNetUsers.Find(id);
-            if (aspNetUser == null)
+            IQueryable<AspNetUser> aspNetUsers = db.AspNetUsers;
+            User userToBeFound = new User();
+            foreach (User user in GetAspNetUsers().ToList())
+            {
+                if (user.Email.Equals(email))
+                {
+                    userToBeFound = user;
+                }
+            }
+            if (userToBeFound.Email == null)
             {
                 return NotFound();
             }
 
-            return Ok(new User(aspNetUser));
+            return Ok(userToBeFound);
         }
 
         // PUT: api/AspNetUsers/5
