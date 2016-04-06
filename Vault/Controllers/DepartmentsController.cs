@@ -11,7 +11,7 @@ namespace Vault.Controllers
 {
     public class DepartmentsController : BaseController
     {
-
+        //WORKS
         // GET: api/Departments
         public IQueryable<Departmento> GetDepartments()
         {
@@ -20,29 +20,49 @@ namespace Vault.Controllers
             return departments.AsQueryable();
         }
 
+        //DOESN"T WORK BUT IT IS NOT NEEDED 
         // GET: api/Departments/5
         [ResponseType(typeof(Departmento))]
-        public IHttpActionResult GetDepartment(string id)
+        public IHttpActionResult GetDepartment(string deptName)
         {
-            Department department = db.Departments.Find(id);
-            if (department == null)
+            IQueryable<Department> aspNetDepartments = db.Departments;
+            Departmento departmentToBeFound = new Departmento();
+
+            foreach(Departmento dpt in GetDepartments().ToList())
+            {
+                if (dpt.DepartmentName.Equals(deptName))
+                {
+                    departmentToBeFound = dpt;
+                }
+            }
+
+            if(departmentToBeFound.DepartmentName == null)
             {
                 return NotFound();
             }
 
-            return Ok(new Departmento(department));
+            //Department department = db.Departments.
+            //if (department == null)
+            //{
+            //  return NotFound();
+            //}
+
+            //return Ok(new Departmento(department));
+            return Ok(departmentToBeFound);
         }
 
+        //DOESN"T WORK BUT IT IS NOT NEEDED 
         // PUT: api/Departments/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutDepartment(string departmentName, Department department)
+        public IHttpActionResult PutDepartment(string name, Department department)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (departmentName != department.DepartmentName)
+            if (name != department.DepartmentName)
             {
                 return BadRequest();
             }
@@ -55,7 +75,7 @@ namespace Vault.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!DepartmentExists(departmentName))
+                if (!DepartmentExists(name))
                 {
                     return NotFound();
                 }
@@ -68,8 +88,9 @@ namespace Vault.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //WORKS
         // POST: api/Departments
-        [ResponseType(typeof(Department))]
+        [ResponseType(typeof(Departmento))]
         public IHttpActionResult PostDepartment(Department department)
         {
             if (!ModelState.IsValid)
@@ -98,20 +119,34 @@ namespace Vault.Controllers
             return CreatedAtRoute("DefaultApi", new { id = department.DepartmentName }, department);
         }
 
+        //WORKS
         // DELETE: api/Departments/5
-        [ResponseType(typeof(Department))]
-        public IHttpActionResult DeleteDepartment(string id)
+        [ResponseType(typeof(Departmento))]
+        public IHttpActionResult DeleteDepartment(string name)
         {
-            Department department = db.Departments.Find(id);
-            if (department == null)
+            System.Diagnostics.Debug.WriteLine("The name passed in is" + name);
+
+            IQueryable<Department> aspNetDepartments = db.Departments;
+            Department departmentToBeRemoved = new Department();
+
+            foreach (Department dpt in aspNetDepartments.ToList())
             {
-                return NotFound();
+                System.Diagnostics.Debug.WriteLine(dpt.DepartmentName);
+                if (dpt.DepartmentName.Equals(name))
+                {
+                    departmentToBeRemoved = dpt;
+                    System.Diagnostics.Debug.WriteLine("Found a Match!");
+                }
             }
 
-            db.Departments.Remove(department);
+            if (departmentToBeRemoved.DepartmentName == null)
+                return NotFound();
+
+            db.Departments.Remove(departmentToBeRemoved);
             db.SaveChanges();
 
-            return Ok(department);
+            return Ok(new Departmento(departmentToBeRemoved));
+
         }
 
         protected override void Dispose(bool disposing)

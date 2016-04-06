@@ -11,7 +11,7 @@ namespace Vault.Controllers
 {
     public class ComputersController : BaseController
     {
-
+        //Works
         // GET: api/Computers
         public IQueryable<Comptadora> GetComputers()
         {
@@ -20,6 +20,7 @@ namespace Vault.Controllers
             return computers.AsQueryable();
         }
 
+        //Works
         // GET: api/Computers/5
         [ResponseType(typeof(Comptadora))]
         public IHttpActionResult GetComputer(int id)
@@ -29,8 +30,9 @@ namespace Vault.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(new Comptadora(computer));
+            Comptadora computerFound = new Comptadora(computer);
+            computerFound.ComputerId = computer.ComputerId;
+            return Ok(computerFound);
         }
 
         // PUT: api/Computers/5
@@ -68,34 +70,42 @@ namespace Vault.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //Works
         // POST: api/Computers
-        [ResponseType(typeof(Computer))]
+        [ResponseType(typeof(Comptadora))]
         public IHttpActionResult PostComputer(Computer computer)
         {
+            Computer compToBeAdded = new Computer
+            {
+                ComputerName = computer.ComputerName,
+                DepartmentName = computer.DepartmentName,
+            };
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Computers.Add(computer);
+            db.Computers.Add(compToBeAdded);
 
             try
             {
                 db.SaveChanges();
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException e)
             {
-                if (ComputerExists(computer.ComputerId))
+                if (ComputerExists(compToBeAdded.ComputerId))
                 {
                     return Conflict();
                 }
                 else
                 {
+                    System.Diagnostics.Debug.WriteLine(e.Message);
                     throw;
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = computer.ComputerId }, computer);
+            return CreatedAtRoute("DefaultApi", new { id = compToBeAdded.ComputerId }, compToBeAdded);
         }
 
         // DELETE: api/Computers/5

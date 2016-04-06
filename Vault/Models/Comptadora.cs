@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
 namespace Vault.Models
@@ -13,7 +14,8 @@ namespace Vault.Models
         {
             ComputerName = aspNetComputer.ComputerName;
             DepartmentName = aspNetComputer.DepartmentName;
-            ComputerId = aspNetComputer.ComputerId;
+            if(aspNetComputer.ComputerId != 0)
+                ComputerId = aspNetComputer.ComputerId;
             Credentials = aspNetComputer.Credentials.Select(aspNetCredential => new Credencial(aspNetCredential)).ToList();
         }
 
@@ -21,6 +23,8 @@ namespace Vault.Models
 
         public string ComputerName { get; set; }
         public string DepartmentName { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ComputerId { get; set; }
         public List<Credencial> Credentials { set; get; }
     }

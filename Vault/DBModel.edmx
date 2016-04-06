@@ -74,7 +74,7 @@
             <PropertyRef Name="ComputerId" />
           </Key>
           <Property Name="DepartmentName" Type="nvarchar" MaxLength="50" />
-          <Property Name="ComputerId" Type="int" Nullable="false" />
+          <Property Name="ComputerId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="ComputerName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Credential">
@@ -323,7 +323,7 @@
             <PropertyRef Name="ComputerId" />
           </Key>
           <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ComputerId" Type="Int32" Nullable="false" />
+          <Property Name="ComputerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ComputerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Computer__Depart__17036CC0" FromRole="Computer" ToRole="Department" />
           <NavigationProperty Name="Credentials" Relationship="Self.FK__Credentia__Compu__19DFD96B" FromRole="Computer" ToRole="Credential" />

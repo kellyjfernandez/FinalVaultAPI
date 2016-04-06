@@ -108,6 +108,7 @@ namespace Vault.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //DON'T USE, USE REGISTER METHOD IN ACCOUNTCONTROLLER CLASS INSTEAD
         // POST: api/AspNetUsers
         [ResponseType(typeof(User))]
         public IHttpActionResult PostAspNetUser(User user)
@@ -173,6 +174,7 @@ namespace Vault.Controllers
             return CreatedAtRoute("DefaultApi", new { id = aspNetUser.Id }, aspNetUser);
         }
 
+        //WORKS
         // DELETE: api/AspNetUsers/5
         [ResponseType(typeof(User))]
         public IHttpActionResult DeleteAspNetUser(string id)
