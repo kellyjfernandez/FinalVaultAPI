@@ -11,14 +11,14 @@
         <EntityTypeShape EntityType="VaultDBModel.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="VaultDBModel.AspNetUser" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="VaultDBModel.Computer" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="VaultDBModel.Credential" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="VaultDBModel.Department" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
         <AssociationConnector Association="VaultDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="VaultDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="VaultDBModel.FK__Computer__Depart__17036CC0" ManuallyRouted="false" />
-        <AssociationConnector Association="VaultDBModel.FK__Credentia__Compu__19DFD96B" ManuallyRouted="false" />
         <AssociationConnector Association="VaultDBModel.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="VaultDBModel.Permission" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="VaultDBModel.Credential" Width="1.5" PointX="5.25" PointY="9.25" />
+        <AssociationConnector Association="VaultDBModel.fk_credential_comp_id" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

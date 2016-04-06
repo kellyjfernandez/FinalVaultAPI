@@ -79,9 +79,7 @@
         </EntityType>
         <EntityType Name="Credential">
           <Key>
-            <PropertyRef Name="UserName" />
-            <PropertyRef Name="Password" />
-            <PropertyRef Name="Type" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ComputerId" Type="int" Nullable="false" />
@@ -335,20 +333,7 @@
           <Property Name="ComputerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ComputerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Department" Relationship="Self.FK__Computer__Depart__17036CC0" FromRole="Computer" ToRole="Department" />
-          <NavigationProperty Name="Credentials" Relationship="Self.FK__Credentia__Compu__19DFD96B" FromRole="Computer" ToRole="Credential" />
-        </EntityType>
-        <EntityType Name="Credential">
-          <Key>
-            <PropertyRef Name="UserName" />
-            <PropertyRef Name="Password" />
-            <PropertyRef Name="Type" />
-          </Key>
-          <Property Name="ComputerId" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Computer" Relationship="Self.FK__Credentia__Compu__19DFD96B" FromRole="Credential" ToRole="Computer" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Credentials" Relationship="VaultDBModel.fk_credential_comp_id" FromRole="Computer" ToRole="Credential" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -399,18 +384,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Credentia__Compu__19DFD96B">
-          <End Role="Computer" Type="Self.Computer" Multiplicity="1" />
-          <End Role="Credential" Type="Self.Credential" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Computer">
-              <PropertyRef Name="ComputerId" />
-            </Principal>
-            <Dependent Role="Credential">
-              <PropertyRef Name="ComputerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="AspNetUserRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
@@ -426,7 +399,6 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="Computers" EntityType="Self.Computer" />
-          <EntitySet Name="Credentials" EntityType="Self.Credential" />
           <EntitySet Name="Departments" EntityType="Self.Department" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -440,10 +412,6 @@
             <End Role="Department" EntitySet="Departments" />
             <End Role="Computer" EntitySet="Computers" />
           </AssociationSet>
-          <AssociationSet Name="FK__Credentia__Compu__19DFD96B" Association="Self.FK__Credentia__Compu__19DFD96B">
-            <End Role="Computer" EntitySet="Computers" />
-            <End Role="Credential" EntitySet="Credentials" />
-          </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -452,7 +420,37 @@
             <End Role="Department" EntitySet="Departments" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Credentials" EntityType="VaultDBModel.Credential" />
+          <AssociationSet Name="fk_credential_comp_id" Association="VaultDBModel.fk_credential_comp_id">
+            <End Role="Computer" EntitySet="Computers" />
+            <End Role="Credential" EntitySet="Credentials" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="Credential">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ComputerId" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Computer" Relationship="VaultDBModel.fk_credential_comp_id" FromRole="Credential" ToRole="Computer" />
+        </EntityType>
+        <Association Name="fk_credential_comp_id">
+          <End Type="VaultDBModel.Computer" Role="Computer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="VaultDBModel.Credential" Role="Credential" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Computer">
+              <PropertyRef Name="ComputerId" />
+            </Principal>
+            <Dependent Role="Credential">
+              <PropertyRef Name="ComputerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -526,17 +524,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Credentials">
-            <EntityTypeMapping TypeName="VaultDBModel.Credential">
-              <MappingFragment StoreEntitySet="Credential">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="ComputerId" ColumnName="ComputerId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Departments">
             <EntityTypeMapping TypeName="VaultDBModel.Department">
               <MappingFragment StoreEntitySet="Department">
@@ -561,6 +548,17 @@
               <ScalarProperty Name="Id" ColumnName="Id" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Credentials">
+            <EntityTypeMapping TypeName="VaultDBModel.Credential">
+              <MappingFragment StoreEntitySet="Credential">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ComputerId" ColumnName="ComputerId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -30,15 +30,12 @@ namespace Vault.Controllers
 
             foreach(Credential cred in aspNetCredentials.ToList())
             {
-                System.Diagnostics.Debug.WriteLine(cred.Id);
                 if (cred.Id == id)
                 {
                     credentialToBeFound = cred;
-                    System.Diagnostics.Debug.WriteLine("Found a Match!");
                 }
             }
-
-            //Credential credential = db.Credentials.Find(id);
+            
             if (credentialToBeFound.Id == 0)
             {
                 return NotFound();
@@ -47,21 +44,38 @@ namespace Vault.Controllers
             return Ok(new Credencial(credentialToBeFound));
         }
 
+        //WORKS
         // PUT: api/Credentials/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutCredential(int id, Credential credential)
         {
+            IQueryable<Credential> aspNetCredentials = db.Credentials;
+            Credential credentialToBeUpdated = new Credential();
+
+            foreach (Credential cred in aspNetCredentials.ToList())
+            {
+                if (cred.Id == id)
+                {
+                    credentialToBeUpdated = cred;
+                }
+            }
+
+            db.Credentials.Attach(credentialToBeUpdated);
+            credentialToBeUpdated.UserName = credential.UserName;
+            credentialToBeUpdated.Password = credential.Password;
+            credentialToBeUpdated.Type = credential.Type;
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != credential.Id)
+            if (id != credentialToBeUpdated.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(credential).State = EntityState.Modified;
+            db.Entry(credentialToBeUpdated).State = EntityState.Modified;
 
             try
             {
@@ -122,6 +136,7 @@ namespace Vault.Controllers
             return CreatedAtRoute("DefaultApi", new { id = credentialToBeAdded.Id}, credentialToBeAdded);
         }
 
+        //WORKS
         // DELETE: api/Credentials/5
         [ResponseType(typeof(Credencial))]
         public IHttpActionResult DeleteCredential(int id)
@@ -131,16 +146,12 @@ namespace Vault.Controllers
 
             foreach (Credential cred in aspNetCredentials.ToList())
             {
-                System.Diagnostics.Debug.WriteLine(cred.Id);
                 if (cred.Id == id)
                 {
                     credentialToBeDeleted = cred;
-                    System.Diagnostics.Debug.WriteLine("Found a Match!");
                 }
             }
 
-
-            //Credential credential = db.Credentials.Find(id);
             if (credentialToBeDeleted.Id == 0)
             {
                 return NotFound();

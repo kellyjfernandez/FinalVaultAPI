@@ -31,7 +31,7 @@ namespace Vault
         public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Computer> Computers { get; set; }
-        public virtual DbSet<Credential> Credentials { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Credential> Credentials { get; set; }
     }
 }

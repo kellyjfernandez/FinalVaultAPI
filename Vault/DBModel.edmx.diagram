@@ -11,14 +11,14 @@
         <EntityTypeShape EntityType="qahmed1Model.AspNetUserLogin" Width="1.5" PointX="5.25" PointY="5.375" IsExpanded="true" />
         <EntityTypeShape EntityType="qahmed1Model.AspNetUser" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="qahmed1Model.Computer" Width="1.5" PointX="3" PointY="9.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="qahmed1Model.Credential" Width="1.5" PointX="5.25" PointY="9.375" IsExpanded="true" />
         <EntityTypeShape EntityType="qahmed1Model.Department" Width="1.5" PointX="0.75" PointY="4.125" IsExpanded="true" />
         <AssociationConnector Association="qahmed1Model.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="qahmed1Model.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="qahmed1Model.FK__Computer__Depart__17036CC0" ManuallyRouted="false" />
-        <AssociationConnector Association="qahmed1Model.FK__Credentia__Compu__19DFD96B" ManuallyRouted="false" />
         <AssociationConnector Association="qahmed1Model.AspNetUserRoles" ManuallyRouted="false" />
         <AssociationConnector Association="qahmed1Model.Permission" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="qahmed1Model.Credential" Width="1.5" PointX="5.25" PointY="9.25" />
+        <AssociationConnector Association="qahmed1Model.fk_credential_comp_id" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
