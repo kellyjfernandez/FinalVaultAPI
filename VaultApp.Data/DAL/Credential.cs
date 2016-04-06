@@ -11,13 +11,14 @@ namespace VaultApp.Data.DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations.Schema;
     public partial class Credential
     {
         public int ComputerId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
         public string Type { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
     
         public virtual Computer Computer { get; set; }

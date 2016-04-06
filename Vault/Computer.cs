@@ -11,7 +11,7 @@ namespace Vault
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
+    
     public partial class Computer
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,7 +21,6 @@ namespace Vault
         }
     
         public string DepartmentName { get; set; }
-        [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ComputerId { get; set; }
         public string ComputerName { get; set; }
     

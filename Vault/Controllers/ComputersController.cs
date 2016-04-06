@@ -35,6 +35,7 @@ namespace Vault.Controllers
             return Ok(computerFound);
         }
 
+        //DOESN'T WORK BUT THIS IS NOT NEEDED
         // PUT: api/Computers/5
         [ResponseType(typeof(void))]
         public IHttpActionResult PutComputer(int id, Computer computer)
@@ -108,8 +109,9 @@ namespace Vault.Controllers
             return CreatedAtRoute("DefaultApi", new { id = compToBeAdded.ComputerId }, compToBeAdded);
         }
 
+        //WORKS
         // DELETE: api/Computers/5
-        [ResponseType(typeof(Computer))]
+        [ResponseType(typeof(Comptadora))]
         public IHttpActionResult DeleteComputer(int id)
         {
             Computer computer = db.Computers.Find(id);
@@ -117,11 +119,12 @@ namespace Vault.Controllers
             {
                 return NotFound();
             }
+            Comptadora computerFound = new Comptadora(computer);
 
             db.Computers.Remove(computer);
             db.SaveChanges();
 
-            return Ok(computer);
+            return Ok(computerFound);
         }
 
         protected override void Dispose(bool disposing)

@@ -11,7 +11,7 @@ namespace Vault.Controllers
 {
     public class CredentialsController : BaseController
     {
-
+        //WORKS
         // GET: api/Credentials
         public IQueryable<Credencial> GetCredentials()
         {
@@ -20,29 +20,43 @@ namespace Vault.Controllers
             return credencials.AsQueryable();
         }
 
+        //WORKS
         // GET: api/Credentials/5
         [ResponseType(typeof(Credencial))]
-        public IHttpActionResult GetCredential(string id)
+        public IHttpActionResult GetCredential(int id)
         {
-            Credential credential = db.Credentials.Find(id);
-            if (credential == null)
+            IQueryable<Credential> aspNetCredentials = db.Credentials;
+            Credential credentialToBeFound = new Credential();
+
+            foreach(Credential cred in aspNetCredentials.ToList())
+            {
+                System.Diagnostics.Debug.WriteLine(cred.Id);
+                if (cred.Id == id)
+                {
+                    credentialToBeFound = cred;
+                    System.Diagnostics.Debug.WriteLine("Found a Match!");
+                }
+            }
+
+            //Credential credential = db.Credentials.Find(id);
+            if (credentialToBeFound.Id == 0)
             {
                 return NotFound();
             }
 
-            return Ok(new Credencial(credential));
+            return Ok(new Credencial(credentialToBeFound));
         }
 
         // PUT: api/Credentials/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutCredential(string id, Credential credential)
+        public IHttpActionResult PutCredential(int id, Credential credential)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != credential.UserName)
+            if (id != credential.Id)
             {
                 return BadRequest();
             }
@@ -68,16 +82,26 @@ namespace Vault.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
+        //WORKS
         // POST: api/Credentials
-        [ResponseType(typeof(Credential))]
+        [ResponseType(typeof(Credencial))]
         public IHttpActionResult PostCredential(Credential credential)
         {
+            Credential credentialToBeAdded = new Credential
+            {
+                UserName = credential.UserName,
+                Password = credential.Password,
+                ComputerId = credential.ComputerId,
+                Type = credential.Type
+
+            };
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Credentials.Add(credential);
+            db.Credentials.Add(credentialToBeAdded);
 
             try
             {
@@ -85,7 +109,7 @@ namespace Vault.Controllers
             }
             catch (DbUpdateException)
             {
-                if (CredentialExists(credential.UserName))
+                if (CredentialExists(credential.Id))
                 {
                     return Conflict();
                 }
@@ -95,23 +119,37 @@ namespace Vault.Controllers
                 }
             }
 
-            return CreatedAtRoute("DefaultApi", new { id = credential.UserName }, credential);
+            return CreatedAtRoute("DefaultApi", new { id = credentialToBeAdded.Id}, credentialToBeAdded);
         }
 
         // DELETE: api/Credentials/5
-        [ResponseType(typeof(Credential))]
-        public IHttpActionResult DeleteCredential(string id)
+        [ResponseType(typeof(Credencial))]
+        public IHttpActionResult DeleteCredential(int id)
         {
-            Credential credential = db.Credentials.Find(id);
-            if (credential == null)
+            IQueryable<Credential> aspNetCredentials = db.Credentials;
+            Credential credentialToBeDeleted = new Credential();
+
+            foreach (Credential cred in aspNetCredentials.ToList())
+            {
+                System.Diagnostics.Debug.WriteLine(cred.Id);
+                if (cred.Id == id)
+                {
+                    credentialToBeDeleted = cred;
+                    System.Diagnostics.Debug.WriteLine("Found a Match!");
+                }
+            }
+
+
+            //Credential credential = db.Credentials.Find(id);
+            if (credentialToBeDeleted.Id == 0)
             {
                 return NotFound();
             }
 
-            db.Credentials.Remove(credential);
+            db.Credentials.Remove(credentialToBeDeleted);
             db.SaveChanges();
 
-            return Ok(credential);
+            return Ok(new Credencial(credentialToBeDeleted));
         }
 
         protected override void Dispose(bool disposing)
@@ -123,9 +161,9 @@ namespace Vault.Controllers
             base.Dispose(disposing);
         }
 
-        private bool CredentialExists(string id)
+        private bool CredentialExists(int id)
         {
-            return db.Credentials.Count(e => e.UserName == id) > 0;
+            return db.Credentials.Count(e => e.Id == id) > 0;
         }
     }
 }
