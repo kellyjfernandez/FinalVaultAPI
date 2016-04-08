@@ -62,50 +62,64 @@ namespace Vault.Controllers
             userToUpdate.isAdmin = user.IsAdmin;
             userToUpdate.UserName = user.Email;
 
-                List<Departmento> dpt = user.Permissions.ToList();
-                List<String> deptName = new List<string>();
-                foreach (Departmento item in dpt) 
-                {
-                deptName.Add(item.DepartmentName);
-                }
+            List<Departmento> updatedPermissions = user.Permissions.ToList();
+            List<Department> currentPermissions = userToUpdate.Departments.ToList();
+            List<String> updatedPermissionsDepartmentNames = new List<string>();
+            List<String> currentPermissionsDepartmentNames = new List<string>();
+            foreach (Departmento item in updatedPermissions)
+            {
+                updatedPermissionsDepartmentNames.Add(item.DepartmentName);
+            }
+            foreach (Department item in currentPermissions)
+            {
+                currentPermissionsDepartmentNames.Add(item.DepartmentName);
+            }
+            List<String> namesOfDepartmentsToBeRemovedFromPermissions =
+                currentPermissionsDepartmentNames.Except(updatedPermissionsDepartmentNames).ToList();
 
-                foreach(String name in deptName)
-                {
+            foreach (String name in namesOfDepartmentsToBeRemovedFromPermissions)
+            {
+                var departmentToDelete = db.Departments.FirstOrDefault(x => x.DepartmentName == name);
+                userToUpdate.Departments.Remove(departmentToDelete);
+            }
+
+            foreach (String name in updatedPermissionsDepartmentNames)
+            {
                 var departmentToAdd = db.Departments.FirstOrDefault(x => x.DepartmentName == name);
                 userToUpdate.Departments.Add(departmentToAdd);
-                }
+            }
 
-                //end of added code
-            
-                if (!ModelState.IsValid)
+            //end of added code
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != userToUpdate.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(userToUpdate).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AspNetUserExists(id))
                 {
-                    return BadRequest(ModelState);
+                    return NotFound();
                 }
-
-                if (id != userToUpdate.Id)
+                else
                 {
-                    return BadRequest();
+                    throw;
                 }
+            }
 
-                db.Entry(userToUpdate).State = EntityState.Modified;
-
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AspNetUserExists(id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-
-                return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
         //DON'T USE, USE REGISTER METHOD IN ACCOUNTCONTROLLER CLASS INSTEAD
