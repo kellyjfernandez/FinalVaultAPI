@@ -66,6 +66,7 @@ namespace Vault.Controllers
             List<Department> currentPermissions = userToUpdate.Departments.ToList();
             List<String> updatedPermissionsDepartmentNames = new List<string>();
             List<String> currentPermissionsDepartmentNames = new List<string>();
+
             foreach (Departmento item in updatedPermissions)
             {
                 updatedPermissionsDepartmentNames.Add(item.DepartmentName);
