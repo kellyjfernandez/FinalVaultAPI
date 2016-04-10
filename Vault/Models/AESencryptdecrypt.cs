@@ -5,13 +5,14 @@ using System.Web;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
+using Vault.Controllers;
 
 namespace Vault.Models
 {
     public class AESencryptdecrypt
     {
-        private static Dictionary<string, string> dictionary = new Dictionary<string, string>();
 
+        private static Dictionary<string, string> dictionary = new Dictionary<string, string>();
         private string keyStr = System.Web.Configuration.WebConfigurationManager.AppSettings["keyStr"];
         private string ivStr = System.Web.Configuration.WebConfigurationManager.AppSettings["ivStr"];
 

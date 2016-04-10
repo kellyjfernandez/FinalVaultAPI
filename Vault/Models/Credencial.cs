@@ -1,18 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Vault.Controllers;
 
 namespace Vault.Models
 {
     public class Credencial
     {
-        AESencryptdecrypt kellyMonster = new AESencryptdecrypt();
         public Credencial()
         {
             
         }
         public Credencial(Credential aspNetCredential)
         {
-            UserName = kellyMonster.decrypt(aspNetCredential.UserName);
-            Password = kellyMonster.decrypt(aspNetCredential.Password);
+            UserName = BaseController.kellyMonster.decrypt(aspNetCredential.UserName);
+            Password = BaseController.kellyMonster.decrypt(aspNetCredential.Password);
             Type = aspNetCredential.Type;
             ComputerId = aspNetCredential.ComputerId;
             if (aspNetCredential.Id != 0)

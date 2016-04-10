@@ -10,7 +10,7 @@ namespace Vault.Controllers
     [Authorize]
     public class BaseController : ApiController
     {
-        protected AESencryptdecrypt kellyMonster = new AESencryptdecrypt();
+        public static AESencryptdecrypt kellyMonster = new AESencryptdecrypt();
         protected qahmed1Entities db = new qahmed1Entities();
     }
 }
