@@ -4,14 +4,15 @@ namespace Vault.Models
 {
     public class Credencial
     {
+        AESencryptdecrypt kellyMonster = new AESencryptdecrypt();
         public Credencial()
         {
             
         }
         public Credencial(Credential aspNetCredential)
         {
-            UserName = aspNetCredential.UserName;
-            Password = aspNetCredential.Password;
+            UserName = kellyMonster.decrypt(aspNetCredential.UserName);
+            Password = kellyMonster.decrypt(aspNetCredential.Password);
             Type = aspNetCredential.Type;
             ComputerId = aspNetCredential.ComputerId;
             if (aspNetCredential.Id != 0)

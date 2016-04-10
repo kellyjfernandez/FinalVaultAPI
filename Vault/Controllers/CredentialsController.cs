@@ -61,8 +61,8 @@ namespace Vault.Controllers
             }
 
             db.Credentials.Attach(credentialToBeUpdated);
-            credentialToBeUpdated.UserName = credential.UserName;
-            credentialToBeUpdated.Password = credential.Password;
+            credentialToBeUpdated.UserName = kellyMonster.encrypt(credential.UserName);
+            credentialToBeUpdated.Password = kellyMonster.encrypt(credential.Password);
             credentialToBeUpdated.Type = credential.Type;
 
             if (!ModelState.IsValid)
@@ -103,8 +103,8 @@ namespace Vault.Controllers
         {
             Credential credentialToBeAdded = new Credential
             {
-                UserName = credential.UserName,
-                Password = credential.Password,
+                UserName = kellyMonster.encrypt(credential.UserName),
+                Password = kellyMonster.encrypt(credential.Password),
                 ComputerId = credential.ComputerId,
                 Type = credential.Type
 

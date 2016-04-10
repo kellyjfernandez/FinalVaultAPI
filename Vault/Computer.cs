@@ -11,6 +11,7 @@ namespace Vault
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     public partial class Computer
     {
@@ -23,6 +24,7 @@ namespace Vault
         public string DepartmentName { get; set; }
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int ComputerId { get; set; }
+        [Required(ErrorMessage = "Computer name is required")]
         public string ComputerName { get; set; }
     
         public virtual Department Department { get; set; }

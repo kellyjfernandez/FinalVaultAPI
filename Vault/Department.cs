@@ -11,7 +11,7 @@ namespace Vault
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class Department
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -20,7 +20,8 @@ namespace Vault
             this.Computers = new HashSet<Computer>();
             this.AspNetUsers = new HashSet<AspNetUser>();
         }
-    
+
+        [Required(ErrorMessage = "Department name is required")]
         public string DepartmentName { get; set; }
         public int Id { get; set; }
     

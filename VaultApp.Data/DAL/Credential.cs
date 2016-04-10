@@ -20,6 +20,7 @@ namespace VaultApp.Data.DAL
         public int ComputerId { get; set; }
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         public string Type { get; set; }
     

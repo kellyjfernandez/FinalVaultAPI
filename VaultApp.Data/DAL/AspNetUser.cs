@@ -11,7 +11,7 @@ namespace VaultApp.Data.DAL
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
     public partial class AspNetUser
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,6 +24,7 @@ namespace VaultApp.Data.DAL
         }
     
         public string Id { get; set; }
+        [Required(ErrorMessage = "Email is required")]
         public string Email { get; set; }
         public bool EmailConfirmed { get; set; }
         public string PasswordHash { get; set; }
@@ -35,7 +36,9 @@ namespace VaultApp.Data.DAL
         public bool LockoutEnabled { get; set; }
         public int AccessFailedCount { get; set; }
         public string UserName { get; set; }
+        [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
+        [Required(ErrorMessage = "Last name is required")]
         public string LastName { get; set; }
         public bool isAdmin { get; set; }
     
